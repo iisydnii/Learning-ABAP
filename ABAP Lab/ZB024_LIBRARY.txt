@@ -1,0 +1,89 @@
+*&---------------------------------------------------------------------*
+*& Report ZB024_LIBRARY
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZB024_LIBRARY.
+
+ TYPES: BEGIN OF LIBRARY_TYPE,
+         BOOKTITLE        TYPE C LENGTH 25,
+         AUTHOR           TYPE C LENGTH 25,
+         PUBLISHER        TYPE C LENGTH 25,
+         STATE            TYPE C LENGTH 2,
+         PUBLICATION_DATE TYPE BLDAT,
+         TRACKINGID       TYPE N LENGTH 9,
+         COST             TYPE P LENGTH 3 DECIMALS 2,
+         PURCHASE_DATE    TYPE BLDAT,
+       END OF LIBRARY_TYPE.
+
+ DATA: BEGIN OF LIBRARY_HEADER,
+        BOOKTITLE        TYPE C LENGTH 25  VALUE 'Title',
+        AUTHOR           TYPE C LENGTH 25  VALUE 'Author',
+        PUBLISHER        TYPE C LENGTH 25  VALUE 'Publisher',
+        STATE            TYPE C LENGTH 5   VALUE 'State',
+        PUBLICATION_DATE TYPE C LENGTH 10  VALUE 'Published',
+        TRACKINGID       TYPE C LENGTH 11  VALUE 'Tracking ID',
+        COST             TYPE C LENGTH 10  VALUE 'Cost',
+        PURCHASE_DATE    TYPE C LENGTH 9   VALUE 'Purchased',
+      END OF LIBRARY_HEADER.
+
+ DATA: IT_LIBRARY TYPE TABLE OF LIBRARY_TYPE,
+      WA_LIBRARY LIKE LINE OF IT_LIBRARY.
+
+	WA_LIBRARY-BOOKTITLE        = 'The Cat in the Hat'.
+	WA_LIBRARY-AUTHOR           = 'Dr. Seuss'.
+	WA_LIBRARY-PUBLISHER        = 'Random House'.
+	WA_LIBRARY-STATE            = 'NY'.
+	WA_LIBRARY-PUBLICATION_DATE = '19570312'.
+	WA_LIBRARY-TRACKINGID       = '005609843'.
+	WA_LIBRARY-COST             = '5.23'.
+	WA_LIBRARY-PURCHASE_DATE    = '20220123'.
+
+	APPEND WA_LIBRARY TO IT_LIBRARY.
+
+	WA_LIBRARY-BOOKTITLE        = 'To Kill a Mockingbird'.
+	WA_LIBRARY-AUTHOR           = 'Harper Lee'.
+	WA_LIBRARY-PUBLISHER        = 'J. B. Lippincott & Co.'.
+	WA_LIBRARY-STATE            = 'PA'.
+	WA_LIBRARY-PUBLICATION_DATE = '19600711'.
+	WA_LIBRARY-TRACKINGID       = '005609883'.
+	WA_LIBRARY-COST             = '17.99'.
+	WA_LIBRARY-PURCHASE_DATE    = '20211213'.
+
+	APPEND WA_LIBRARY TO IT_LIBRARY.
+
+	WA_LIBRARY-BOOKTITLE        = 'The Scarlet Letter'.
+	WA_LIBRARY-AUTHOR           = 'Nathaniel Hawthorne'.
+	WA_LIBRARY-PUBLISHER        = 'Ticknor, Reed & Fields'.
+	WA_LIBRARY-STATE            = 'MA'.
+	WA_LIBRARY-PUBLICATION_DATE = '18501006'.
+	WA_LIBRARY-TRACKINGID       = '005609450'.
+	WA_LIBRARY-COST             = '10.95'.
+	WA_LIBRARY-PURCHASE_DATE    = '20211123'.
+
+	APPEND WA_LIBRARY TO IT_LIBRARY.
+
+	*Write Header
+	WRITE:/ LIBRARY_HEADER-BOOKTITLE,
+			LIBRARY_HEADER-AUTHOR,
+			LIBRARY_HEADER-PUBLISHER,
+			LIBRARY_HEADER-STATE,
+			LIBRARY_HEADER-PUBLICATION_DATE,
+			LIBRARY_HEADER-TRACKINGID,
+			LIBRARY_HEADER-COST,
+			LIBRARY_HEADER-PURCHASE_DATE.
+
+	ULINE.
+
+	LOOP AT IT_LIBRARY INTO WA_LIBRARY.
+	  NEW-LINE.
+	  WRITE:  WA_LIBRARY-BOOKTITLE,
+			  WA_LIBRARY-AUTHOR,
+			  WA_LIBRARY-PUBLISHER,
+			  WA_LIBRARY-STATE, '  ',
+			  (*)WA_LIBRARY-PUBLICATION_DATE,
+			  (*)WA_LIBRARY-TRACKINGID,
+			  '  $', WA_LIBRARY-COST,
+			  ' ', WA_LIBRARY-PURCHASE_DATE.
+
+	ENDLOOP.
